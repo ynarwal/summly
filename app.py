@@ -43,12 +43,12 @@ def extract_text_from_docx(file):
 @app.post("/summarize")
 async def summarize(file: UploadFile = File(...)):
     text = ""
-    if file.content_type == "application/pdf" or file.file.name.endswith(".pdf"):
+    if file.content_type == "application/pdf" or file.filename.endswith(".pdf"):
         text = extract_text_from_pdf(file.file)
     elif file.content_type in [
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "application/msword",
-    ] or file.file.name.endswith(".docx"):
+    ] or file.filename.endswith(".docx"):
         text = extract_text_from_docx(file.file)
     if not text:
         raise HTTPException(status_code=400, detail="Unsupported file type")
